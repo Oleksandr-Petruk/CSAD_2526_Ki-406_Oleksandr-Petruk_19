@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [ develop, master ]
+  pull_request:
+    branches: [ develop, master ]
+
+jobs:
+  build_and_test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure CMake
+        shell: bash
+        run: |
+          mkdir -p build
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug ..
+
+      - name: Build project
+        shell: bash
+        working-directory: build
+        # ДОДАНО: --config Debug (критично для Windows)
+        run: cmake --build . --config Debug
+
+      - name: Run tests
+        shell: bash
+        working-directory: build
+        # ДОДАНО: -C Debug (виправляє помилку "Test not available")
+        run: ctest -C Debug --output-on-failure
