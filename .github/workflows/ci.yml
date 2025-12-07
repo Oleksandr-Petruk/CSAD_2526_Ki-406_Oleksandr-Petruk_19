@@ -27,7 +27,6 @@ jobs:
       - name: Build project
         shell: bash
         working-directory: build
-        # ДОДАНО: --config Debug (критично для Windows)
         run: cmake --build . --config Debug
 
       - name: Run tests
