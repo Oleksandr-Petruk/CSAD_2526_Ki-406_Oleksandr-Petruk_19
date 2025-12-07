@@ -33,5 +33,4 @@ jobs:
       - name: Run tests
         shell: bash
         working-directory: build
-        # ДОДАНО: -C Debug (виправляє помилку "Test not available")
         run: ctest -C Debug --output-on-failure
